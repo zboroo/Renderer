@@ -3,6 +3,11 @@
 #include <fstream>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "stb_image.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "Shader.h"
+#include "Texture.h"
 
 GLFWwindow* window;
 std::string title = "Renderer";
@@ -34,84 +39,20 @@ int main(int argc, char** argv)
 
 	glfwSetFramebufferSizeCallback(window, processFramebufferSize);
 
-	std::ifstream vertexShaderFile("shader/base.vert");
-	if (!vertexShaderFile.is_open())
-	{
-		std::cout << "failed to open vertex shader file" << std::endl;
-		return EXIT_FAILURE;
-	}
-	std::string vertexShaderContent;
-	std::string line;
-	while (std::getline(vertexShaderFile, line))
-	{
-		vertexShaderContent += line + '\n';
-	}
-	vertexShaderFile.close();
-
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	const char* vertexShaderSource = vertexShaderContent.c_str();
-	glShaderSource(vertexShader, 1, &vertexShaderSource, 0);
-	glCompileShader(vertexShader);
-
-	GLint success;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if(!success)
-	{
-		char log[512];
-		glGetShaderInfoLog(vertexShader, 512, nullptr, log);
-		std::cout << "failed compile vertex shader: " << log << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	std::ifstream fragmentShaderFile("shader/base.frag");
-	if (!fragmentShaderFile.is_open())
-	{
-		std::cout << "failed to open fragment shader file" << std::endl;
-		return EXIT_FAILURE;
-	}
-	std::string fragmentShaderContent;
-	while (std::getline(fragmentShaderFile, line))
-	{
-		fragmentShaderContent += line + '\n';
-	}
-	fragmentShaderFile.close();
-
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	const char* fragmentShaderSource = fragmentShaderContent.c_str();
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, 0);
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		char log[512];
-		glGetShaderInfoLog(fragmentShader, 512, nullptr, log);
-		std::cout << "failed compile fragment shader: " << log << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
-	glLinkProgram(program);
-
-	glGetProgramiv(program, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		char log[512];
-		glGetProgramInfoLog(program, 1, nullptr, log);
-		std::cout << "failed link shader program: " << log << std::endl;
-		return EXIT_FAILURE;
-	}
-	
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	Shader baseShader("shader/base.vert", "shader/base.frag");
 
 	GLfloat vertices[] =
 	{
-		 0.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 
-		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f
+		 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f
+	};
+
+	GLint indices[] =
+	{
+		0, 1, 2,
+		0, 2, 3
 	};
 
 	GLuint VAO;
@@ -123,30 +64,75 @@ int main(int argc, char** argv)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	GLint positionLocation = glGetAttribLocation(program, "position");
+	GLint positionLocation = glGetAttribLocation(baseShader.program, "position");
 	glEnableVertexAttribArray(positionLocation);
-	glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+	glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
 
-	GLint colorLocation = glGetAttribLocation(program, "color");
+	GLint colorLocation = glGetAttribLocation(baseShader.program, "color");
 	glEnableVertexAttribArray(colorLocation);
-	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
+	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
+	GLint texcoordLocation = glGetAttribLocation(baseShader.program, "texcoord");
+	glEnableVertexAttribArray(texcoordLocation);
+	glVertexAttribPointer(texcoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+
+	GLuint IBO;
+	glGenBuffers(1, &IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	Texture texture0(baseShader, "texture0", "texture/container2.png", GL_TEXTURE0);
+	Texture texture1(baseShader, "texture1", "texture/awesomeface.png", GL_TEXTURE1);
+
+	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glm::mat4 model(1.0f);
+	model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+	/*model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(static_cast<float>(glfwGetTime())), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));*/
+	
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		processKeyboard();
 
-		glUseProgram(program);
+		baseShader.use();
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		texture0.bind();
+		texture1.bind();
+		baseShader.setFloat("runtime", static_cast<float>(glfwGetTime()));
+
+		glm::mat4 model(1.0f);
+		model = glm::rotate(model, static_cast<float>(glfwGetTime()), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		glm::mat4 view(1.0f);
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+		
+		baseShader.setMat4fv("model", model);
+		baseShader.setMat4fv("view", view);
+		baseShader.setMat4fv("projection", projection);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &IBO);
+
 	glfwDestroyWindow(window);
 	glfwTerminate();
+
 	return EXIT_SUCCESS;
 }
 
