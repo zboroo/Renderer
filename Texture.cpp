@@ -1,6 +1,7 @@
 #include "Texture.h"
 
 Texture::Texture(Shader shader, const std::string& name, const std::string& path, GLint activeNum)
+	: texture(0), wrapS(GL_REPEAT), wrapT(GL_REPEAT), minFilter(GL_LINEAR_MIPMAP_LINEAR),magFilter(GL_LINEAR)
 {
 	load(shader, name, path, activeNum);
 }
@@ -25,8 +26,6 @@ void Texture::load(Shader shader, const std::string& name, const std::string& pa
 	int width = 0, height = 0, channel = 0;
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &channel, 0);
-
-
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);

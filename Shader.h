@@ -38,6 +38,8 @@ public:
 	void setMat3fv(const std::string& name, const glm::mat3& value);
 	void setMat4fv(const std::string& name, const glm::mat4& value);
 
+	void setMVP(const glm::mat4& model, const glm::mat4& view, const glm::mat4& projection);
+
 private:
 	void compile(GLuint shader, const std::string& shaderPath, ShaderType type);
 	void check(GLuint id, ShaderType type);

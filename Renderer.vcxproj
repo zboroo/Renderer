@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -163,8 +164,11 @@
   <ItemGroup>
     <None Include="shader\base.frag" />
     <None Include="shader\base.vert" />
+    <None Include="shader\cone.frag" />
+    <None Include="shader\cone.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>

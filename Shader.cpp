@@ -79,6 +79,13 @@ void Shader::setMat4fv(const std::string& name, const glm::mat4& value)
 	glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
 
+void Shader::setMVP(const glm::mat4& model, const glm::mat4& view, const glm::mat4& projection)
+{
+	setMat4fv("model", model);
+	setMat4fv("view", view);
+	setMat4fv("projection", projection);
+}
+
 void Shader::compile(GLuint shader, const std::string& shaderPath, ShaderType type)
 {
 	std::ifstream file(shaderPath);

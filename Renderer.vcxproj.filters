@@ -30,16 +30,24 @@
     <ClCompile Include="Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert" />
     <None Include="shader\base.frag" />
+    <None Include="shader\cone.vert" />
+    <None Include="shader\cone.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

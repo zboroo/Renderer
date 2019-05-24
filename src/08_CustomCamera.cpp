@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <vector>
 #include <fstream>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -97,6 +96,12 @@ int main(int argc, char** argv)
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
+	GLint indices[] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
 	GLuint VAO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -116,36 +121,6 @@ int main(int argc, char** argv)
 
 	Texture texture0(baseShader, "texture0", "texture/container2.png", GL_TEXTURE0);
 
-
-	Shader coneShader("shader/cone.vert", "shader/cone.frag");
-
-	GLfloat cone[] =
-	{
-		 0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-		 0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 
-		 0.5f, 0.0f,-0.5f, 0.0f, 0.0f, 1.0f,
-		-0.5f, 0.0f,-0.5f, 1.0f, 0.0f, 0.0f,
-		-0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f,
-		 0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f
-	};
-
-	GLuint coneVAO;
-	glGenVertexArrays(1, &coneVAO);
-	glBindVertexArray(coneVAO);
-
-	GLuint coneVBO;
-	glGenBuffers(1, &coneVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, coneVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cone), cone, GL_STATIC_DRAW);
-
-	GLint conePositionLocation = glGetAttribLocation(coneShader.program, "position");
-	glEnableVertexAttribArray(conePositionLocation);
-	glVertexAttribPointer(conePositionLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(0));
-
-	GLint coneColorLocation = glGetAttribLocation(coneShader.program, "color");
-	glEnableVertexAttribArray(coneColorLocation);
-	glVertexAttribPointer(coneColorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -156,23 +131,15 @@ int main(int argc, char** argv)
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 model(1.0f);
-		model = glm::rotate(model, static_cast<float>(glfwGetTime()), glm::vec3(1.0f, 0.0f, 0.0f));
-		glm::mat4 view = camera.getViewMatrix();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.getFOV()), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
-
-		coneShader.use();
-		glBindVertexArray(coneVAO);
-		model = glm::mat4(1.0f);
-		coneShader.setMVP(model, view, projection);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-
-
-		/*
 		baseShader.use();
 		glBindVertexArray(VAO);
 		texture0.bind();
 		baseShader.setFloat("runtime", static_cast<float>(glfwGetTime()));
+
+		glm::mat4 model(1.0f);
+		model = glm::rotate(model, static_cast<float>(glfwGetTime()), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 view = camera.getViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.getFOV()), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 		baseShader.setMVP(model, view, projection);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -188,7 +155,7 @@ int main(int argc, char** argv)
 		model = glm::scale(model, glm::vec3(0.5f));
 		baseShader.setMVP(model, view, projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		*/
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
