@@ -20,11 +20,11 @@ private:
 
 public:
 	Texture() = default;
-	Texture(Shader shader, const std::string& name, const std::string& path, GLint activeNum);
+	Texture(Shader& shader, const std::string& name, const std::string& path, GLint activeNum);
 	~Texture();
 
 public:
-	void load(Shader shader, const std::string & name, const std::string& path, GLint activeNum);
+	void load(Shader& shader, const std::string & name, const std::string& path, GLint activeNum);
 	void bind();
 };
 

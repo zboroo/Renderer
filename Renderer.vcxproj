@@ -162,6 +162,8 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\axis.frag" />
+    <None Include="shader\axis.vert" />
     <None Include="shader\base.frag" />
     <None Include="shader\base.vert" />
     <None Include="shader\cone.frag" />

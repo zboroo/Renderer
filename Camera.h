@@ -12,11 +12,11 @@ enum class CameraMovement
 class Camera
 {
 private:
-	float cameraSpeed			= { 5.0f };
+	float cameraSpeed			= { 8.0f };
 	glm::vec3 worldUp		    = { 0.0f, 1.0f, 0.0f };
-	glm::vec3 cameraPosition	= { 0.0f, 0.0f, 10.0f };
+	glm::vec3 cameraPosition	= { 0.0f, 20.0f, 20.0f };
 	glm::vec3 cameraUp			= { 0.0f, 1.0f, 0.0f };
-	glm::vec3 cameraFront		= { 0.0f, 0.0f, -1.0f };
+	glm::vec3 cameraFront		= { 0.0f, -glm::sqrt(2) / 2.0f, -glm::sqrt(2) / 2.0f };
 	glm::vec3 cameraRight		= { 1.0f, 0.0f, 0.0f };
 
 	float cursorX				= { 0.0f };
@@ -24,7 +24,7 @@ private:
 	float mouseSensitivity		= { 0.05f };
 	bool  mouseFirstInput		= { true };
 	float yaw					= { -90.0f };
-	float pitch					= { 0.0f };
+	float pitch					= { -45.0f };
 
 	float fov					= { 45.0f };
 

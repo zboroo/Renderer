@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(Shader shader, const std::string& name, const std::string& path, GLint activeNum)
+Texture::Texture(Shader& shader, const std::string& name, const std::string& path, GLint activeNum)
 	: texture(0), wrapS(GL_REPEAT), wrapT(GL_REPEAT), minFilter(GL_LINEAR_MIPMAP_LINEAR),magFilter(GL_LINEAR)
 {
 	load(shader, name, path, activeNum);
@@ -11,7 +11,7 @@ Texture::~Texture()
 	glDeleteTextures(1, &texture);
 }
 
-void Texture::load(Shader shader, const std::string& name, const std::string& path, GLint activeNum)
+void Texture::load(Shader& shader, const std::string& name, const std::string& path, GLint activeNum)
 {
 	glGenTextures(1, &texture);
 	glActiveTexture(activeNum);
