@@ -314,28 +314,22 @@ int main(int argc, char** argv)
 		cubeSpecularTexture.bind();
 		cubeShader.setFloat("material.shininess", 32.0f);
 
-		cubeShader.setVec3fv("spotLight.position", camera.getCameraPosition());
-		cubeShader.setVec3fv("spotLight.direction", camera.getCameraFront());
-		cubeShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-		cubeShader.setFloat("spotLight.outCutOff", glm::cos(glm::radians(17.5f)));
-
-		cubeShader.setVec3fv("spotLight.ambient", glm::vec3(0.5f, 0.5f, 0.5f));
-		cubeShader.setVec3fv("spotLight.diffuse", glm::vec3(0.9f, 0.9f, 0.9f));
-		cubeShader.setVec3fv("spotLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-		cubeShader.setFloat("spotLight.constant", 1.0f);
-		cubeShader.setFloat("spotLight.linear", 0.045f);
-		cubeShader.setFloat("spotLight.quadratic", 0.0075f);
+		cubeShader.setVec3fv("pointLight.position", lightPosition);
+		cubeShader.setVec3fv("pointLight.ambient", glm::vec3(0.5f, 0.5f, 0.5f));
+		cubeShader.setVec3fv("pointLight.diffuse", glm::vec3(0.9f, 0.9f, 0.9f));
+		cubeShader.setVec3fv("pointLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setFloat("pointLight.constant", 1.0f);
+		cubeShader.setFloat("pointLight.linear", 0.09f);
+		cubeShader.setFloat("pointLight.quadratic", 0.032f);
 
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(5.0f));
 		cubeShader.setMVP(model, view, projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f));
+		model = glm::translate(model, glm::vec3(-100.0f, 0.0f, 0.0f));
 		cubeShader.setMVP(model, view, projection);
+
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);

@@ -168,6 +168,10 @@
     <None Include="shader\base.vert" />
     <None Include="shader\cone.frag" />
     <None Include="shader\cone.vert" />
+    <None Include="shader\light\cube.frag" />
+    <None Include="shader\light\cube.vert" />
+    <None Include="shader\light\point_light.frag" />
+    <None Include="shader\light\point_light.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

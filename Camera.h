@@ -42,6 +42,16 @@ public:
 	{
 		return fov;
 	}
+
+	glm::vec3 getCameraPosition()
+	{
+		return cameraPosition;
+	}
+
+	glm::vec3 getCameraFront()
+	{
+		return cameraFront;
+	}
 };
 
 #endif

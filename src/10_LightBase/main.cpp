@@ -107,48 +107,47 @@ int main(int argc, char** argv)
 
 	GLfloat cubeVertices[] =
 	{
-		// positions         // normals           // texture coords
-	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 
 	GLuint cubeVAO;
@@ -162,19 +161,11 @@ int main(int argc, char** argv)
 
 	GLint cubePositionLocation = glGetAttribLocation(cubeShader.program, "position");
 	glEnableVertexAttribArray(cubePositionLocation);
-	glVertexAttribPointer(cubePositionLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
+	glVertexAttribPointer(cubePositionLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 	
 	GLint cubeNormalLocation = glGetAttribLocation(cubeShader.program, "normal");
 	glEnableVertexAttribArray(cubeNormalLocation);
-	glVertexAttribPointer(cubeNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-
-	GLint cubeTexcoordLocation = glGetAttribLocation(cubeShader.program, "texcoord");
-	glEnableVertexAttribArray(cubeTexcoordLocation);
-	glVertexAttribPointer(cubeTexcoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
-
-	Texture cubeAmbientTexture(cubeShader, "material.ambient", "texture/container2.png", GL_TEXTURE0);
-	Texture cubeDiffuseTexture(cubeShader, "material.diffuse", "texture/container2.png", GL_TEXTURE1);
-	Texture cubeSpecularTexture(cubeShader, "material.specular", "texture/container2_specular.png", GL_TEXTURE2);
+	glVertexAttribPointer(cubeNormalLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
 	/* 光源 */
 	Shader pointLightShader("shader/light/point_light.vert", "shader/light/point_light.frag");
@@ -291,11 +282,11 @@ int main(int argc, char** argv)
 		glBindVertexArray(pointLightVAO);
 
 		model = glm::mat4(1.0f);
-		/*float current = static_cast<float>(glfwGetTime());
+		float current = static_cast<float>(glfwGetTime());
 		float x = 5.0f * glm::sin(current);
-		float z = 5.0f * glm::cos(current);*/
-		model = glm::translate(model, glm::vec3(5, 0.0f, 0));
-		lightPosition = glm::vec3(5, 0.0f, 0);
+		float z = 5.0f * glm::cos(current);
+		model = glm::translate(model, glm::vec3(x, 0.0f, z));
+		lightPosition = glm::vec3(x, 0.0f, z);
 
 		model = glm::scale(model, glm::vec3(0.1f));
 
@@ -306,36 +297,22 @@ int main(int argc, char** argv)
 		/* 绘制受光物体 */
 		cubeShader.use();
 		glBindVertexArray(cubeVAO);
-	
+		model = glm::mat4(1.0f);
+		cubeShader.setMVP(model, view, projection);
+
 		cubeShader.setVec3fv("cameraPosition", camera.getCameraPosition());
 
-		cubeAmbientTexture.bind();
-		cubeDiffuseTexture.bind();
-		cubeSpecularTexture.bind();
+		cubeShader.setVec3fv("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+		cubeShader.setVec3fv("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		cubeShader.setVec3fv("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 		cubeShader.setFloat("material.shininess", 32.0f);
 
-		cubeShader.setVec3fv("spotLight.position", camera.getCameraPosition());
-		cubeShader.setVec3fv("spotLight.direction", camera.getCameraFront());
-		cubeShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-		cubeShader.setFloat("spotLight.outCutOff", glm::cos(glm::radians(17.5f)));
+		cubeShader.setVec3fv("pointLight.position", lightPosition);
+		cubeShader.setVec3fv("pointLight.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+		cubeShader.setVec3fv("pointLight.diffuse", glm::vec3(0.9f, 0.9f, 0.9f));
+		cubeShader.setVec3fv("pointLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setVec3fv("lightPosition", lightPosition);
 
-		cubeShader.setVec3fv("spotLight.ambient", glm::vec3(0.5f, 0.5f, 0.5f));
-		cubeShader.setVec3fv("spotLight.diffuse", glm::vec3(0.9f, 0.9f, 0.9f));
-		cubeShader.setVec3fv("spotLight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-		cubeShader.setFloat("spotLight.constant", 1.0f);
-		cubeShader.setFloat("spotLight.linear", 0.045f);
-		cubeShader.setFloat("spotLight.quadratic", 0.0075f);
-
-		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(5.0f));
-		cubeShader.setMVP(model, view, projection);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f));
-		cubeShader.setMVP(model, view, projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);
