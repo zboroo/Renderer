@@ -18,6 +18,9 @@ float prevTime  = 0.0f;
 
 Camera camera;
 
+bool startPointLight = false;
+bool startSpotLight = false;
+
 void calculateFPS();
 void processFramebufferSize(GLFWwindow* window, int width, int height);
 void processKeyboard();
@@ -240,7 +243,12 @@ int main(int argc, char** argv)
 	glm::vec3 cubeColor(1.0f, 0.5f, 0.31f);
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 
-	glm::vec3 lightPosition(0.0f);
+	glm::vec3 pointLightPositions[] =
+	{
+		glm::vec3(3.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, -5.0f),
+		glm::vec3(0.0f, 0.0f, 3.0f)
+	};
 
 	glClearColor(0.23f, 0.23f, 0.23f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -290,22 +298,22 @@ int main(int argc, char** argv)
 		pointLightShader.use();
 		glBindVertexArray(pointLightVAO);
 
-		model = glm::mat4(1.0f);
-		/*float current = static_cast<float>(glfwGetTime());
-		float x = 5.0f * glm::sin(current);
-		float z = 5.0f * glm::cos(current);*/
-		model = glm::translate(model, glm::vec3(5, 0.0f, 0));
-		lightPosition = glm::vec3(5, 0.0f, 0);
+		for (int i = 0; i < 3; i++)
+		{
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, pointLightPositions[i]);
+			model = glm::scale(model, glm::vec3(0.1f));
+			pointLightShader.setMVP(model, view, projection);
+			pointLightShader.setVec3fv("lightColor", lightColor);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
-		model = glm::scale(model, glm::vec3(0.1f));
-
-		pointLightShader.setMVP(model, view, projection);
-		pointLightShader.setVec3fv("lightColor", lightColor);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		
 		/* 绘制受光物体 */
 		cubeShader.use();
 		glBindVertexArray(cubeVAO);
+
+		cubeShader.setBool("startPointLight", startPointLight);
+		cubeShader.setBool("startSpotLight", startSpotLight);
 	
 		cubeShader.setVec3fv("cameraPosition", camera.getCameraPosition());
 
@@ -313,6 +321,37 @@ int main(int argc, char** argv)
 		cubeDiffuseTexture.bind();
 		cubeSpecularTexture.bind();
 		cubeShader.setFloat("material.shininess", 32.0f);
+
+		cubeShader.setVec3fv("directionLight.direction", glm::vec3(-1.0f, -1.0f, 0.0f));
+		cubeShader.setVec3fv("directionLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		cubeShader.setVec3fv("directionLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+		cubeShader.setVec3fv("directionLight.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+
+		cubeShader.setVec3fv("pointLights[0].position", pointLightPositions[0]);
+		cubeShader.setVec3fv("pointLights[0].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		cubeShader.setVec3fv("pointLights[0].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		cubeShader.setVec3fv("pointLights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setFloat("pointLights[0].constant", 1.0f);
+		cubeShader.setFloat("pointLights[0].linear", 0.045f);
+		cubeShader.setFloat("pointLights[0].quadratic", 0.0075f);
+		
+		cubeShader.setVec3fv("pointLights[1].position", pointLightPositions[1]);
+		cubeShader.setVec3fv("pointLights[1].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		cubeShader.setVec3fv("pointLights[1].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		cubeShader.setVec3fv("pointLights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setFloat("pointLights[1].constant", 1.0f);
+		cubeShader.setFloat("pointLights[1].linear", 0.045f);
+		cubeShader.setFloat("pointLights[1].quadratic", 0.0075f);
+
+		
+		cubeShader.setVec3fv("pointLights[2].position", pointLightPositions[2]);
+		cubeShader.setVec3fv("pointLights[2].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		cubeShader.setVec3fv("pointLights[2].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+		cubeShader.setVec3fv("pointLights[2].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setFloat("pointLights[2].constant", 1.0f);
+		cubeShader.setFloat("pointLights[2].linear", 0.045f);
+		cubeShader.setFloat("pointLights[2].quadratic", 0.0075f);
+		
 
 		cubeShader.setVec3fv("spotLight.position", camera.getCameraPosition());
 		cubeShader.setVec3fv("spotLight.direction", camera.getCameraFront());
@@ -334,6 +373,12 @@ int main(int argc, char** argv)
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f));
+		cubeShader.setMVP(model, view, projection);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -8.0f));
 		model = glm::scale(model, glm::vec3(5.0f));
 		cubeShader.setMVP(model, view, projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -398,6 +443,23 @@ void processKeyboard()
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
 		camera.processKeyboadMove(CameraMovement::DOWN, deltaTime);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	{
+		startPointLight = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	{
+		startPointLight = false;
+	}
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	{
+		startSpotLight = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+	{
+		startSpotLight = false;
 	}
 }
 
