@@ -27,9 +27,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -51,12 +48,13 @@
     <None Include="shader\light\point_light.frag" />
     <None Include="shader\light\cube.vert" />
     <None Include="shader\light\cube.frag" />
+    <None Include="shader\model\sponza\sponza.vert" />
+    <None Include="shader\model\sponza\sponza.frag" />
+    <None Include="shader\model\man\man.frag" />
+    <None Include="shader\model\man\man.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">

@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures, Shader shader)
-	: VAO(0),VBO(0),IBO(0),vertices(0),indices(0),textures(0),shader(shader)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
+	: VAO(0),VBO(0),IBO(0),vertices(0),indices(0),textures(0)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -18,30 +18,63 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GL_UNSIGNED_INT) * indices.size(), indices.data(), GL_STATIC_DRAW);
 
-	GLint positionLocation = glGetAttribLocation(shader.program, "position");
-	glEnableVertexAttribArray(positionLocation);
-	glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 
-	GLint normalLocation = glGetAttribLocation(shader.program, "normal");
-	glEnableVertexAttribArray(normalLocation);
-	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
-	GLint texcoordLocation = glGetAttribLocation(shader.program, "texcoord");
-	glEnableVertexAttribArray(texcoordLocation);
-	glVertexAttribPointer(texcoordLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texcoord));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texcoord));
 
-	GLint tangentLocation = glGetAttribLocation(shader.program, "tangent");
-	glEnableVertexAttribArray(tangentLocation);
-	glVertexAttribPointer(tangentLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 
-	GLint bitangentLocation = glGetAttribLocation(shader.program, "bitangent");
-	glEnableVertexAttribArray(bitangentLocation);
-	glVertexAttribPointer(bitangentLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 }
 
 Mesh::~Mesh()
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &IBO);
+
+}
+
+void Mesh::draw(Shader& shader)
+{
+	glBindVertexArray(VAO);
+
+	unsigned ambientNum = 0;
+	unsigned diffuseNum = 0;
+	unsigned specularNum = 0;
+	
+	for (int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		Texture texture = textures[i];
+		std::string name("material.");
+
+		if (TextureType::AMBIENT == texture.type)
+		{
+			name += "ambient" + std::to_string(ambientNum);
+			ambientNum++;
+		}
+
+		if (TextureType::DIFFUSE == texture.type)
+		{
+			name += "diffuse" + std::to_string(diffuseNum);
+			diffuseNum++;
+		}
+
+		if (TextureType::SPECULAR == texture.type)
+		{
+			name += "specular" + std::to_string(specularNum);
+			specularNum++;
+		}
+
+		shader.setInt(name, i);
+		glBindTexture(GL_TEXTURE_2D, texture.id);
+	}
+	
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 }
