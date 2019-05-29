@@ -5,11 +5,6 @@ Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentS
 	load(vertexShaderPath, fragmentShaderPath);
 }
 
-Shader::~Shader()
-{
-	glDeleteProgram(program);
-}
-
 void Shader::load(const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
 {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);

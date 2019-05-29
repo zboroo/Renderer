@@ -41,12 +41,10 @@ private:
 	std::vector<Texture> textures;
 
 public:
-	Mesh() = default;
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
-	~Mesh();
 
 public:
-	void draw(Shader& shader);
+	void draw(Shader shader);
 
 };
 

@@ -18,9 +18,7 @@ public:
 	GLuint program;
 
 public:
-	Shader() = default;
 	Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
-	~Shader();
 
 public:
 	void load(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);

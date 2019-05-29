@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 	glEnableVertexAttribArray(trianglePositionLocation);
 	glVertexAttribPointer(trianglePositionLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
 
-	Model sponzaModel("model/sponza/sponza.obj");
+	Model sponzaModel("model/man/man03.obj");
 	Shader sponzaShader("shader/model/sponza/sponza.vert", "shader/model/sponza/sponza.frag");
 
 	glClearColor(0.23f, 0.23f, 0.23f, 1.0f);
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
 		
 		sponzaShader.use();
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.01f));
+		model = glm::scale(model, glm::vec3(0.1f));
 		sponzaShader.setMVP(model, view, projection);
 		sponzaShader.setVec3fv("cameraPosition", camera.getCameraPosition());
 		sponzaModel.draw(sponzaShader);

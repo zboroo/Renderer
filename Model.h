@@ -18,7 +18,6 @@ private:
 
 public:
 	Model(const std::string &path);
-	~Model();
 
 private:
 	void processNode(aiNode* node, const aiScene* scene);
@@ -26,7 +25,7 @@ private:
 	std::vector<Texture> processMeshTexture(aiMaterial* material, aiTextureType type, TextureType textureType);
 
 public:
-	void draw(Shader& shader);
+	void draw(Shader shader);
 };
 
 #endif

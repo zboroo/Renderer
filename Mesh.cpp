@@ -34,12 +34,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vecto
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 }
 
-Mesh::~Mesh()
-{
-
-}
-
-void Mesh::draw(Shader& shader)
+void Mesh::draw(Shader shader)
 {
 	glBindVertexArray(VAO);
 

@@ -1,6 +1,6 @@
 #include "Model.h"
 
-Model::Model(const std::string& path) : meshs{0}, directory{""}
+Model::Model(const std::string& path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -164,13 +164,8 @@ std::vector<Texture> Model::processMeshTexture(aiMaterial* material, aiTextureTy
 	return textures;
 }
 
-void Model::draw(Shader& shader)
+void Model::draw(Shader shader)
 {
-	for (int i = 0; i < meshs.size(); i++)
+	for (unsigned i = 0; i < meshs.size(); i++)
 		meshs[i].draw(shader);
-}
-
-Model::~Model()
-{
-
 }
