@@ -16,12 +16,18 @@ Model::Model(const std::string& path)
 	processNode(scene->mRootNode, scene);
 }
 
+Model::~Model()
+{
+	for (unsigned i = 0; i < meshs.size(); i++)
+		meshs[i].clear();
+}
+
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
 	for (unsigned i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshs.push_back(processMesh(mesh, scene));
+		processMesh(mesh, scene);
 	}
 
 	for (unsigned i = 0; i < node->mNumChildren; i++)
@@ -30,7 +36,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+void Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -78,7 +84,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			indices.push_back(face.mIndices[j]);
 	}
 
-	
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	
 	std::vector<Texture> ambientTextures = processMeshTexture(material, aiTextureType_AMBIENT, TextureType::AMBIENT);
@@ -90,8 +95,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Texture> specularTextures = processMeshTexture(material, aiTextureType_SPECULAR, TextureType::SPECULAR);
 	textures.insert(textures.end(), specularTextures.begin(), specularTextures.end());
 	
-
-	return Mesh(vertices, indices, textures);
+	meshs.push_back(Mesh(vertices, indices, textures));
 }
 
 std::vector<Texture> Model::processMeshTexture(aiMaterial* material, aiTextureType type, TextureType textureType)
@@ -109,7 +113,7 @@ std::vector<Texture> Model::processMeshTexture(aiMaterial* material, aiTextureTy
 
 		for (unsigned j = 0; j < loadedTextures.size(); j++)
 		{
-			std::string pathTmp(path.C_Str());
+			std::string pathTmp(directory + "/" + path.C_Str());
 			if (loadedTextures[j].path == pathTmp)
 			{
 				textures.push_back(loadedTextures[j]);
@@ -120,51 +124,16 @@ std::vector<Texture> Model::processMeshTexture(aiMaterial* material, aiTextureTy
 
 		if (!skip)
 		{
-			Texture texture;
-			texture.type = textureType;
-			texture.path = path.C_Str();
-
-			glGenTextures(1, &texture.id);
-			glBindTexture(GL_TEXTURE_2D, texture.id);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			int width = 0, height = 0, channel = 0;
-			std::string texturePath = directory + "/" + path.C_Str();
-
-			unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &channel, 0);
-
-			if (data)
-			{
-				GLenum format = GL_RGB;
-				if (channel == 1)
-					format = GL_RED;
-				else if (channel == 3)
-					format = GL_RGB;
-				else if (channel == 4)
-					format = GL_RGBA;
-
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-				glGenerateMipmap(GL_TEXTURE_2D);
-
-				stbi_image_free(data);
-				textures.push_back(texture);
-				loadedTextures.push_back(texture);
-			}
-			else
-			{
-				std::cout << "failed to load texture: " << texturePath << std::endl;
-			}
+			Texture texture(directory + "/" + path.C_Str(), textureType);
+			textures.push_back(texture);
+			loadedTextures.push_back(texture);
 		}
 	}
 
 	return textures;
 }
 
-void Model::draw(Shader shader)
+void Model::draw(const Shader& shader)
 {
 	for (unsigned i = 0; i < meshs.size(); i++)
 		meshs[i].draw(shader);

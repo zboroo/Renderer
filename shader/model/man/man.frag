@@ -4,6 +4,7 @@ out vec4 color;
 
 in Data
 {
+	vec3 position;
 	vec2 texcoord;
 }fragmentData;
 
@@ -15,8 +16,20 @@ struct Material
 };
 
 uniform Material material;
+uniform int num;
 
 void main()
 {
-	color = vec4(texture(material.diffuse0, fragmentData.texcoord).rgb, 1.0f);
+	if(num == 0)
+	{
+		color = vec4(texture(material.diffuse0, fragmentData.texcoord).rgb, 1.0f);
+	}
+	if(num == 1)
+	{
+		color = vec4(fragmentData.position, 1.0f);
+	}
+	if(num == 2)
+	{
+		color = vec4(gl_FragCoord.z,gl_FragCoord.z,gl_FragCoord.z, 1.0f);
+	}
 }

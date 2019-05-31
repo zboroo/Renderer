@@ -6,6 +6,7 @@
 #include "glad/glad.h"
 #include "glm/glm.hpp"
 #include "Shader.h"
+#include "Texture.h"
 
 struct Vertex
 {
@@ -16,36 +17,29 @@ struct Vertex
 	glm::vec3 bitangent;
 };
 
-
-enum class TextureType
-{
-	AMBIENT, DIFFUSE, SPECULAR
-};
-
-struct Texture
-{
-	GLuint id;
-	std::string path;
-	TextureType type;
-};
-
 class Mesh
 {
 private:
-	GLuint VAO;
-	GLuint VBO;
-	GLuint IBO;
+	GLuint VAO{0};
+	GLuint VBO{0};
+	GLuint IBO{0};
 
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
 
 public:
+	Mesh(std::vector<Vertex> vertices);
+	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
 
 public:
-	void draw(Shader shader);
+	void bind();
+	void draw(const Shader& shader);
+	void clear();
 
+private:
+	void init(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
 };
 
 #endif

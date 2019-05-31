@@ -11,11 +11,13 @@ uniform mat4 projection;
 
 out Data
 {
+	vec3 position;
 	vec2 texcoord;
 }vertexData;
 
 void main()
 {
+	vertexData.position = position;
 	vertexData.texcoord = texcoord;
 	gl_Position = projection * view * model * vec4(position, 1.0f);
 }

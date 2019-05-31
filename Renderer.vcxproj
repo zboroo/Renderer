@@ -161,6 +161,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\axis.frag" />
@@ -173,16 +174,31 @@
     <None Include="shader\light\cube.vert" />
     <None Include="shader\light\point_light.frag" />
     <None Include="shader\light\point_light.vert" />
+    <None Include="shader\model\cube\cube.frag" />
+    <None Include="shader\model\cube\cube.vert" />
+    <None Include="shader\model\grass\grass.frag" />
+    <None Include="shader\model\grass\grass.vert" />
     <None Include="shader\model\man\man.frag" />
     <None Include="shader\model\man\man.vert" />
+    <None Include="shader\model\outline.frag" />
+    <None Include="shader\model\outline.vert" />
+    <None Include="shader\model\plane\plane.frag" />
+    <None Include="shader\model\plane\plane.vert" />
     <None Include="shader\model\sponza\sponza.frag" />
     <None Include="shader\model\sponza\sponza.vert" />
+    <None Include="shader\model\window\window.frag" />
+    <None Include="shader\model\window\window.vert" />
+    <None Include="shader\screen.frag" />
+    <None Include="shader\screen.vert" />
+    <None Include="shader\skybox.frag" />
+    <None Include="shader\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

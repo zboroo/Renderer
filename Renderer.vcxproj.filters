@@ -36,6 +36,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert" />
@@ -52,6 +55,20 @@
     <None Include="shader\model\sponza\sponza.frag" />
     <None Include="shader\model\man\man.frag" />
     <None Include="shader\model\man\man.vert" />
+    <None Include="shader\model\plane\plane.frag" />
+    <None Include="shader\model\plane\plane.vert" />
+    <None Include="shader\model\cube\cube.frag" />
+    <None Include="shader\model\cube\cube.vert" />
+    <None Include="shader\model\outline.vert" />
+    <None Include="shader\model\outline.frag" />
+    <None Include="shader\model\grass\grass.frag" />
+    <None Include="shader\model\grass\grass.vert" />
+    <None Include="shader\model\window\window.frag" />
+    <None Include="shader\model\window\window.vert" />
+    <None Include="shader\screen.vert" />
+    <None Include="shader\screen.frag" />
+    <None Include="shader\skybox.vert" />
+    <None Include="shader\skybox.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -64,6 +81,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
